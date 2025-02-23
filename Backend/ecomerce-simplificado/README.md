@@ -97,3 +97,39 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 ## License
 
 Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+
+
+-- to add readme
+
+# Nest
+npm i
+npm i -g @nestjs/cli
+npm i --save @nestjs/platform-fastify    
+npm i --save @nestjs/typeorm typeorm pg   
+npm i --save @nestjs/config
+Invoke-WebRequest https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh -OutFile wait-for-it.sh
+
+
+# Docker
+
+## Set the initial container. Variables need to be the same in .env archive use .env.example
+docker run --name [container-name] -e POSTGRES_USER=[user-name] -e POSTGRES_PASSWORD=[your-password] -e POSTGRES_DB=[database-name] -p 5432:5432 -d postgres
+
+## Build the postgres container
+docker exec -it postgres_container apt-get update
+docker exec -it postgres_container apt-get install -y postgresql-client
+
+## Check the database container and test tables
+docker exec -it ecomerce-simplificado psql -U postgres -d Ecomerce-Simplificado
+\c Ecomerce-Simplificado
+SELECT current_schema(); or  SELECT table_name FROM information_schema.tables WHERE table_schema = 'public';
+
+
+## Test if it's ok!
+SELECT now();
+
+# To run application
+docker-compose down -v  # Stop and remove volumes
+docker-compose up --build  # Rebuild and restart everything
+
+
