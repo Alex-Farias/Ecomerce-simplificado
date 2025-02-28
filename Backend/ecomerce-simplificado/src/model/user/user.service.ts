@@ -1,7 +1,6 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Usuario } from "src/entity/usuario.entity";
-import { User } from "src/model/user/user";
 import { Repository } from "typeorm";
 import { UserDTO } from "./dto/user.dto";
 import { UserPerfilService } from "./perfil/userPerfil.service";
@@ -17,13 +16,13 @@ export class UserService{
     async findAll(): Promise<UserDTO[]>{
         const users = await this.userRepository.find({ relations: ['usuarioPerfil'] });
         if (!users || users.length === 0) {throw new NotFoundException('No users found')}
-        return users.map(user => UserDTO.fromEntity(user));
+        return Promise.all(users.map(user => this.convertEntitytoDTO(user)));
     }
 
     async findById(id: number): Promise<UserDTO>{
         const user = await this.userRepository.findOne({ relations: ['usuarioPerfil'], where: { idUsuario: id } });
         if (!user) {throw new NotFoundException('')}
-        return UserDTO.fromEntity(user);
+        return this.convertEntitytoDTO(user);
     }
 
     async create(userDTO: UserDTO): Promise<UserDTO>{
@@ -46,6 +45,21 @@ export class UserService{
         const usuario = await this.convertDTOtoEntity(userDto);
         const updatedUser = await this.userRepository.save(usuario);
         return await this.findById(updatedUser.idUsuario);
+    }
+
+    async convertEntitytoDTO(e: Usuario): Promise<UserDTO>{
+        return new UserDTO(e.idUsuario,
+                           e.nome,
+                           e.rua,
+                           e.numeroRua,
+                           e.email,
+                           e.senha,
+                           e.cpf,
+                           e.cnpj,
+                           e.telefone,
+                           e.celular,
+                           e.usuarioPerfil,
+                           e.ativo)
     }
 
     async convertDTOtoEntity(dto: UserDTO): Promise<Usuario>{

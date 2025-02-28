@@ -43,21 +43,6 @@ export class User implements UserInterface{
         this.isActive = isActive;
     }
 
-    public static fromDTO(dto: UserDTO): User{
-        return new User(dto.getId(),
-                        dto.getName(),
-                        dto.getStreet(),
-                        dto.getStreetNumber(),
-                        dto.getEmail(),
-                        dto.getPassword(),
-                        dto.getCpf(),
-                        dto.getCnpj(),
-                        dto.getTelephone(),
-                        dto.getCellPhone(),
-                        dto.getPerfil(),
-                        dto.getIsActive())
-    }
-
     public getId(): number{return this.id!}
     public getName(): string{return this.name!}
     public getStreet(): string{return this.street!}

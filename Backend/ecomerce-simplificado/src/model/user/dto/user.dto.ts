@@ -26,13 +26,13 @@ export class UserDTO{
   password: string;
   @IsOptional()
   @IsString()
-  cpf: string;
+  cpf?: string;
   @IsOptional()
   @IsString()
-  cnpj: string;
+  cnpj?: string;
   @IsOptional()
   @IsString()
-  telephone: string;
+  telephone?: string;
   @IsString()
   cellPhone: string;
   @IsInt()
@@ -69,36 +69,6 @@ export class UserDTO{
     this.cellPhone = cellPhone;
     this.perfil = perfil;
     this.isActive = isActive;
-  }
-
-  public static fromEntity(e: Usuario): UserDTO{
-    return new UserDTO(e.idUsuario,
-                       e.nome,
-                       e.rua,
-                       e.numeroRua,
-                       e.email,
-                       e.senha,
-                       e.cpf,
-                       e.cnpj,
-                       e.telefone,
-                       e.celular,
-                       e.usuarioPerfil,
-                       e.ativo)
-  }
-
-  public static fromClass(dto: User): UserDTO{
-    return new UserDTO(dto.getId(),
-                       dto.getName(),
-                       dto.getStreet(),
-                       dto.getStreetNumber(),
-                       dto.getEmail(),
-                       dto.getPassword(),
-                       dto.getCpf(),
-                       dto.getCnpj(),
-                       dto.getTelephone(),
-                       dto.getCellPhone(),
-                       dto.getPerfil(),
-                       dto.getIsActive())
   }
 
   public getId(): number{return this.id!}
