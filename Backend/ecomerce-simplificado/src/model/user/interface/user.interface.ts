@@ -1,16 +1,16 @@
-import { UserPerfil } from "./userPerfil";
+import { UserPerfilEnum } from "../perfil/enum/userPerfilEnum";
 
-export interface User{
+export interface UserInterface{
     id: number;
     name: string;
     street: string;
-    streetName: string;
+    streetNumber: number;
     email: string;
     password: string;
     cpf: string;
     cnpj: string;
     telephone: string;
     cellPhone: string;
-    perfil: UserPerfil[];
+    perfil: UserPerfilEnum;
     isActive: boolean;
 }

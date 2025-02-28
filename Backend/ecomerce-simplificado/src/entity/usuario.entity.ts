@@ -1,5 +1,6 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { UsuarioPerfil } from "./usuario_perfil.entity";
+import { UserPerfilEnum } from "src/model/user/perfil/enum/userPerfilEnum";
 
 @Entity('usuario')
 export class Usuario{
@@ -9,8 +10,8 @@ export class Usuario{
     nome: string;
     @Column({ type: 'varchar', length: 255, nullable: false })
     rua: string;
-    @Column({ type: 'varchar', length: 255, nullable: false })
-    numeroRua: string;
+    @Column({ type: 'int', nullable: false })
+    numeroRua: number;
     @Column({ type: 'varchar', length: 255, nullable: false })
     email: string;
     @Column({ type: 'varchar', length: 255, nullable: false })
@@ -25,7 +26,7 @@ export class Usuario{
     celular: string;
     @ManyToOne(() => UsuarioPerfil, { nullable: false })
     @JoinColumn({ name: 'id_perfil' })
-    usuarioPerfil: UsuarioPerfil;
+    usuarioPerfil: number;
     @Column({ type: 'boolean', nullable: false, default: true })
     ativo: boolean;
 }

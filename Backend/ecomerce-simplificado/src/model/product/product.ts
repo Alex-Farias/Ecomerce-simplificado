@@ -1,5 +1,5 @@
-import { ProductCategory } from "./productCategory";
-import { User } from "./user";
+import { User } from "../user/user";
+import { ProductCategory } from "./category/productCategory";
 
 export interface Product{
   id: string;

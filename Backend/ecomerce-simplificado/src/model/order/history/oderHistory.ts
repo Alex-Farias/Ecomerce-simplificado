@@ -1,7 +1,7 @@
-import { Order } from "./order";
-import { OrderItem } from "./orderItem";
-import { Product } from "./product";
-import { User } from "./user";
+import { User } from "src/model/user/user";
+import { Product } from "../../product/product";
+import { OrderItem } from "../item/orderItem";
+import { Order } from "../order";
 
 export interface OrderHistory{
       id: number;

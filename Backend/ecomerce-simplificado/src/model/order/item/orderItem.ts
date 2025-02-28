@@ -1,5 +1,5 @@
 import { Produto } from "src/entity/produto.entity";
-import { Order } from "./order";
+import { Order } from "../order";
 
 export interface OrderItem{
   id: number;

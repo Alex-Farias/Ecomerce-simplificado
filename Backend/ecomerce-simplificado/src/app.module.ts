@@ -2,6 +2,10 @@ import { Module, OnModuleInit } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
+import { UserPerfilModule } from './model/user/perfil/userPerfil.module';
+import { UserModule } from './model/user/user.module';
 
 @Module({
   imports: [
@@ -19,8 +23,12 @@ import { DataSource } from 'typeorm';
       autoLoadEntities: true,
       synchronize: true,
       logging: true,
-    })
+    }),
+    UserModule,
+    UserPerfilModule,
   ],
+  controllers: [AppController], 
+  providers: [AppService],
 })
 
 export class AppModule implements OnModuleInit{
