@@ -24,10 +24,13 @@ export class UserDTO{
   @IsString()
   @IsNotEmpty()
   password: string;
+  @IsOptional()
   @IsString()
   cpf: string;
+  @IsOptional()
   @IsString()
   cnpj: string;
+  @IsOptional()
   @IsString()
   telephone: string;
   @IsString()
