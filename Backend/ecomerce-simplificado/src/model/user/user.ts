@@ -14,7 +14,7 @@ export class User implements UserInterface{
     cnpj: string;
     telephone: string;
     cellPhone: string;
-    perfil: UserPerfilEnum;
+    perfil: number;
     isActive: boolean;
 
     constructor(id: number,
@@ -27,7 +27,7 @@ export class User implements UserInterface{
                 cnpj: string,
                 telephone: string,
                 cellPhone: string,
-                perfil: UserPerfilEnum,
+                perfil: number,
                 isActive: boolean){
         this.id = id;
         this.name = name;
@@ -53,7 +53,7 @@ export class User implements UserInterface{
     public getCnpj(): string{return this.cnpj!}
     public getTelephone(): string{return this.telephone!}
     public getCellPhone(): string{return this.cellPhone!}
-    public getPerfil(): UserPerfilEnum{return this.perfil!}
+    public getPerfil(): number{return this.perfil!}
     public getIsActive(): boolean{return this.isActive!}
   
     public setId(id: number){this.id = id}
@@ -66,6 +66,6 @@ export class User implements UserInterface{
     public setCnpj(cnpj: string){this.cnpj = cnpj}
     public setTelephone(telephone: string){this.telephone = telephone}
     public setCellPhone(cellPhone: string){this.cellPhone = cellPhone}
-    public setPerfil(perfil: UserPerfilEnum){this.perfil = perfil}
+    public setPerfil(perfil: number){this.perfil = perfil}
     public setIsActive(isActive: boolean){this.isActive = isActive}
 }

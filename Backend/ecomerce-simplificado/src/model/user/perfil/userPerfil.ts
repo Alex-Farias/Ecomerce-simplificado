@@ -14,12 +14,6 @@ export class UserPerfil implements UserPerfilInterface{
         this.isActive = isActive;
     }
 
-    public static fromDTO(dto: UserPerfilDTO): UserPerfil{
-        return new UserPerfil(dto.id,
-                              dto.description,
-                              dto.isActive)
-    }
-
     public getId(){return this.id}
     public getDescription(){return this.description}
     public getIsActive(){return this.isActive}

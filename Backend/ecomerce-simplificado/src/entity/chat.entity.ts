@@ -7,10 +7,10 @@ export class Chat {
   idChat: number;
   @ManyToOne(() => Usuario, { nullable: false })
   @JoinColumn({ name: 'id_usuario1' })
-  usuario1: Usuario;
+  usuario1: number;
   @ManyToOne(() => Usuario, { nullable: false })
   @JoinColumn({ name: 'id_usuario2' })
-  usuario2: Usuario;
+  usuario2: number;
   @Column({ type: 'varchar', length: 255, nullable: true })
   descricao: string;
 }

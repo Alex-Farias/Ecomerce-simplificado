@@ -37,7 +37,7 @@ export class UserDTO{
   cellPhone: string;
   @IsInt()
   @IsNotEmpty()
-  perfil: UserPerfilEnum;
+  perfil: number;
   @IsBoolean()
   @IsNotEmpty()
   isActive: boolean;

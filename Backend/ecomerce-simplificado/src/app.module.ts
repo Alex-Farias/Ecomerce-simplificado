@@ -6,6 +6,8 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UserPerfilModule } from './model/user/perfil/userPerfil.module';
 import { UserModule } from './model/user/user.module';
+import { ProductModule } from './model/product/product.module';
+import { ProductCategoryModule } from './model/product/category/productCategory.module';
 
 @Module({
   imports: [
@@ -26,6 +28,8 @@ import { UserModule } from './model/user/user.module';
     }),
     UserModule,
     UserPerfilModule,
+    ProductModule,
+    ProductCategoryModule,
   ],
   controllers: [AppController], 
   providers: [AppService],

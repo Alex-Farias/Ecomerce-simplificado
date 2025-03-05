@@ -8,10 +8,10 @@ export class CarrinhoItem {
   idCarrinhoItem: number;
   @ManyToOne(() => Carrinho, { nullable: false })
   @JoinColumn({ name: 'id_carrinho' })
-  carrinho: Carrinho;
+  carrinho: number;
   @ManyToOne(() => Produto, { nullable: false })
   @JoinColumn({ name: 'id_produto' })
-  produto: Produto;
+  produto: number;
   @Column({ type: 'int', nullable: false })
   produtoQuantidade: number;
   @Column({ type: 'boolean', nullable: false, default: true })

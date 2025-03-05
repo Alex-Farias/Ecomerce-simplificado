@@ -2,7 +2,7 @@ import { Body, Controller, Delete, Get, Param, Post, Put, UsePipes, ValidationPi
 import { UserPerfilDTO } from "src/model/user/perfil/dto/userPerfil.dto";
 import { UserPerfilService } from "src/model/user/perfil/userPerfil.service";
 
-@Controller('user/perfils')
+@Controller('user/perfil')
 export class UserPerfilController{
     constructor(private readonly userPerfilService: UserPerfilService){}
 

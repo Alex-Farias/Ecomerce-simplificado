@@ -26,19 +26,11 @@ export class UserPerfilDTO{
         this.isActive = isActive;
     }
 
-    public static fromEntity(e: UsuarioPerfil): UserPerfilDTO{
-        return new UserPerfilDTO(e.idPerfil,
-                                 e.descricao,
-                                 e.ativo)
-    }
-
-    public static fromUserPerfil(userPerfil: UserPerfil): UserPerfilDTO{
-        return new UserPerfilDTO(userPerfil.id,
-                                 userPerfil.description,
-                                 userPerfil.isActive)
-    }
-
     public getId(){return this.id}
     public getDescription(){return this.description}
     public getIsActive(){return this.isActive}
+
+    public setId(id: number){this.id = id}
+    public setDescription(description: string){this.description = description}
+    public setIsActive(isActive: boolean){this.isActive = isActive}
 }

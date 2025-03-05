@@ -10,16 +10,16 @@ export class PedidoHistorico {
   idPedidoHistorico: number;
   @ManyToOne(() => PedidoItem, { nullable: false })
   @JoinColumn({ name: 'id_pedido_item' })
-  pedidoItem: PedidoItem;
+  pedidoItem: number;
   @ManyToOne(() => Pedido, { nullable: false })
   @JoinColumn({ name: 'id_pedido' })
   pedido: Pedido;
   @ManyToOne(() => Produto, { nullable: false })
   @JoinColumn({ name: 'id_produto' })
-  produto: Produto;
+  produto: number;
   @ManyToOne(() => Usuario, { nullable: false })
   @JoinColumn({ name: 'id_usuario' })
-  usuario: Usuario;
+  usuario: number;
   @Column({ type: 'int', nullable: false })
   produtoQuantidade: number;
   @Column({ type: 'decimal', precision: 10, scale: 2, nullable: false })

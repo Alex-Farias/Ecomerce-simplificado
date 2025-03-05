@@ -7,5 +7,5 @@ export class Carrinho {
   idCarrinho: number;
   @ManyToOne(() => Usuario, { nullable: false })
   @JoinColumn({ name: 'id_usuario' })
-  usuario: Usuario;
+  usuario: number;
 }

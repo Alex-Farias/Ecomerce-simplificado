@@ -11,6 +11,6 @@ export interface UserInterface{
     cnpj: string;
     telephone: string;
     cellPhone: string;
-    perfil: UserPerfilEnum;
+    perfil: number;
     isActive: boolean;
 }

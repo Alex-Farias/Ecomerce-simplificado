@@ -11,7 +11,7 @@ export class PedidoItem {
   pedido: Pedido;
   @ManyToOne(() => Produto, { nullable: false })
   @JoinColumn({ name: 'id_produto' })
-  produto: Produto;
+  produto: number;
   @Column({ type: 'int', nullable: false })
   produtoQuantidade: number;
   @Column({ type: 'boolean', nullable: false, default: true })

@@ -4,6 +4,8 @@ import { Usuario } from "src/entity/usuario.entity";
 import { Repository } from "typeorm";
 import { UserDTO } from "./dto/user.dto";
 import { UserPerfilService } from "./perfil/userPerfil.service";
+import { ConvertClass } from "src/config/convertClassesEnum";
+import { User } from "./user";
 
 @Injectable()
 export class UserService{
@@ -14,68 +16,153 @@ export class UserService{
     ){}
 
     async findAll(): Promise<UserDTO[]>{
-        const users = await this.userRepository.find({ relations: ['usuarioPerfil'] });
+        const users = await this.userRepository.find();
         if (!users || users.length === 0) {throw new NotFoundException('No users found')}
-        return Promise.all(users.map(user => this.convertEntitytoDTO(user)));
+        return Promise.all(users.map(user => this.convert(user, ConvertClass.DTO)));
     }
 
     async findById(id: number): Promise<UserDTO>{
-        const user = await this.userRepository.findOne({ relations: ['usuarioPerfil'], where: { idUsuario: id } });
+        const user = await this.userRepository.findOne({ where: { idUsuario: id } });
         if (!user) {throw new NotFoundException('')}
-        return this.convertEntitytoDTO(user);
+        return this.convert(user, ConvertClass.DTO);
     }
 
     async create(userDTO: UserDTO): Promise<UserDTO>{
-        const e = await this.convertDTOtoEntity(userDTO);
-        const newUser = await this.userRepository.save(e);
-        return await this.findById(newUser.idUsuario);
+        const e = await this.convert(userDTO, ConvertClass.ENTITY);
+        if(!e){throw new NotFoundException('')}
+        const cUser = await this.userRepository.save(e);
+        return await this.findById(cUser.idUsuario);
     }
 
     async update(userDTO: UserDTO): Promise<UserDTO>{
-        const e = await this.convertDTOtoEntity(userDTO);
-        const updatedUser = await this.userRepository.save(e);
-        return await this.findById(updatedUser.idUsuario);
+        const e = await this.convert(userDTO, ConvertClass.ENTITY);
+        if(!e){throw new NotFoundException('')}
+        const uUser = await this.userRepository.save(e);
+        return await this.findById(uUser.idUsuario);
     }
 
     async disable(id: number): Promise<UserDTO>{
-        const userDto = await this.findById(id);
-        if (!userDto) {throw new NotFoundException('DEU RUIM AQUI?' + userDto)}
-        userDto.setIsActive(false);
+        const userDTO = await this.findById(id);
+        if (!userDTO) {throw new NotFoundException('DEU RUIM AQUI?' + userDTO)}
+        userDTO.setIsActive(false);
 
-        const usuario = await this.convertDTOtoEntity(userDto);
-        const updatedUser = await this.userRepository.save(usuario);
-        return await this.findById(updatedUser.idUsuario);
+        const e = await this.convert(userDTO, ConvertClass.ENTITY);
+        const uUser = await this.userRepository.save(e);
+        return await this.findById(uUser.idUsuario);
     }
 
-    async convertEntitytoDTO(e: Usuario): Promise<UserDTO>{
-        return new UserDTO(e.idUsuario,
-                           e.nome,
-                           e.rua,
-                           e.numeroRua,
-                           e.email,
-                           e.senha,
-                           e.cpf,
-                           e.cnpj,
-                           e.telefone,
-                           e.celular,
-                           e.usuarioPerfil,
-                           e.ativo)
-    }
+    async convert<T>(obj: T, convertTo: ConvertClass): Promise<any> {
+        switch (convertTo) {
+            case ConvertClass.ENTITY:
+                if(obj instanceof Usuario) {return obj}
+                if(obj instanceof User || obj instanceof UserDTO){
+                    let user = new Usuario()
+                    user.idUsuario = obj.getId();
+                    user.nome = obj.getName();
+                    user.rua = obj.getStreet();
+                    user.numeroRua = obj.getStreetNumber();
+                    user.email = obj.getEmail();
+                    user.senha = obj.getPassword();
+                    user.cpf = obj.getCpf();
+                    user.cnpj = obj.getCnpj();
+                    user.telefone = obj.getTelephone();
+                    user.celular = obj.getCellPhone();
+                    user.usuarioPerfil = obj.getPerfil();
+                    user.ativo = obj.getIsActive();
+                    return user;
+                }
+                break;
+    
+            case ConvertClass.CLASS:
+                if(obj instanceof Usuario){
+                    const perfil = await this.userPerfilService.convert(
+                        await this.userPerfilService.findById(obj.idUsuario), convertTo);
 
-    async convertDTOtoEntity(dto: UserDTO): Promise<Usuario>{
-        let e = new Usuario();
-        e.idUsuario = dto.getId();
-        e.nome = dto.getName();
-        e.rua = dto.getStreet();
-        e.numeroRua = dto.getStreetNumber();
-        e.email = dto.getEmail();
-        e.senha = dto.getPassword();
-        e.cpf = dto.getCpf();
-        e.cnpj = dto.getCnpj();
-        e.telefone = dto.getTelephone();
-        e.celular = dto.getCellPhone();
-        e.usuarioPerfil = dto.getId();
-        e.ativo = dto.getIsActive();
-        return e;
+                    return new User(
+                        obj.idUsuario,
+                        obj.nome,
+                        obj.rua,
+                        obj.numeroRua,
+                        obj.email,
+                        obj.senha,
+                        obj.cpf,
+                        obj.cnpj,
+                        obj.telefone,
+                        obj.celular,
+                        perfil,
+                        obj.ativo,
+                    );
+                }
+
+                if(obj instanceof UserDTO) {
+                    return new User(
+                        obj.getId(),
+                        obj.getName(),
+                        obj.getStreet(),
+                        obj.getStreetNumber(),
+                        obj.getEmail(),
+                        obj.getPassword(),
+                        obj.getCpf(),
+                        obj.getCnpj(),
+                        obj.getTelephone(),
+                        obj.getCellPhone(),
+                        obj.getPerfil(),
+                        obj.getIsActive()
+                    )
+                }
+
+                if(obj instanceof User){
+                    return obj;
+                }
+                break;
+
+            case ConvertClass.DTO:
+                if(obj instanceof Usuario){
+                    const perfil = await this.userPerfilService.convert(
+                        await this.userPerfilService.findById(obj.idUsuario), convertTo);
+
+                    return new User(
+                        obj.idUsuario,
+                        obj.nome,
+                        obj.rua,
+                        obj.numeroRua,
+                        obj.email,
+                        obj.senha,
+                        obj.cpf,
+                        obj.cnpj,
+                        obj.telefone,
+                        obj.celular,
+                        perfil,
+                        obj.ativo,
+                    );
+                }
+
+                if(obj instanceof User){
+                    return new UserDTO(
+                        obj.getId(),
+                        obj.getName(),
+                        obj.getStreet(),
+                        obj.getStreetNumber(),
+                        obj.getEmail(),
+                        obj.getPassword(),
+                        obj.getCpf(),
+                        obj.getCnpj(),
+                        obj.getTelephone(),
+                        obj.getCellPhone(),
+                        obj.getPerfil(),
+                        obj.getIsActive()
+                    )
+                }
+
+                if(obj instanceof UserDTO) {
+                    return obj;
+                }
+                
+                break;
+
+            default:
+                throw new Error('Invalid conversion type');
+        }
+        throw new Error('Conversion type and input do not match');
     }
 }

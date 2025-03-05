@@ -7,7 +7,7 @@ export class ChatHistorico {
   idChatHistorico: number;
   @ManyToOne(() => Chat, { nullable: false })
   @JoinColumn({ name: 'id_chat' })
-  chat: Chat;
+  chat: number;
   @Column({ type: 'varchar', length: 255, nullable: false })
   mensagem: string;
   @Column({ type: 'int', nullable: true })
