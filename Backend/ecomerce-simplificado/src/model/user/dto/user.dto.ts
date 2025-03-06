@@ -55,8 +55,6 @@ export class UserDTO{
               perfil: UserPerfilEnum,
               isActive: boolean)
   {
-    //if (!id){throw new Error('O ID TA VINDO NULO?: ' + id + name + email + perfil)}
-
     this.id = id;
     this.name = name;
     this.street = street;

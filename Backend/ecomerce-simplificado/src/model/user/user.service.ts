@@ -161,8 +161,8 @@ export class UserService{
                 break;
 
             default:
-                throw new Error('Invalid conversion type');
+                throw new Error('');
         }
-        throw new Error('Conversion type and input do not match');
+        throw new Error('');
     }
 }

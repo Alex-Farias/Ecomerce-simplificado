@@ -7,12 +7,6 @@ export class Produto {
   @PrimaryGeneratedColumn('increment', {name: 'id_produto'})
   idProduto: number;
 
-  @Column({ name: 'id_produto_categoria', type: 'int', nullable: false })
-  idProdutoCategoria: number;
-
-  @Column({ name: 'id_usuario', type: 'int', nullable: false })
-  idUsuario: number;
-
   @ManyToOne(() => ProdutoCategoria, { nullable: false })
   @JoinColumn({ name: 'id_produto_categoria' })
   produtoCategoria: number;

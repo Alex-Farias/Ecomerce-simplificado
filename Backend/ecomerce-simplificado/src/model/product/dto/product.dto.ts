@@ -11,10 +11,10 @@ export class ProductDTO{
     @IsInt()
     id?: number;
     @IsNotEmpty()
-    @Type(() => ProductCategoryDTO) 
+    @IsInt()
     category: number;
     @IsNotEmpty()
-    @Type(() => UserDTO)
+    @IsInt()
     user: number;
     @IsString()
     @IsNotEmpty()

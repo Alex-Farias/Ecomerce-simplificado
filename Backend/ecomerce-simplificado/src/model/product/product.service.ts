@@ -31,9 +31,9 @@ export class ProductService{
 
     async create(prodDTO: ProductDTO): Promise<ProductDTO>{
         const e = await this.convert(prodDTO, ConvertClass.ENTITY);
+        console.log(e);
         if(!e){throw new NotFoundException('')}
         const cProd = await this.productRepository.save(e);
-        // throw new Error('Aqui?: ' + cProd.idProduto); = 1
         return await this.findById(cProd.idProduto);
     }
 
@@ -148,8 +148,8 @@ export class ProductService{
                 break;
 
             default:
-                throw new Error('Invalid conversion type');
+                throw new Error('');
         }
-        throw new Error('Conversion type and input do not match');
+        throw new Error('');
     }
 }
