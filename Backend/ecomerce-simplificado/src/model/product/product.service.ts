@@ -18,20 +18,19 @@ export class ProductService{
     ){}
     
     async findAll(): Promise<ProductDTO[]>{
-        const prods = await this.productRepository.find();
+        const prods = await this.productRepository.find({ relations: ['produtoCategoria', 'usuario'] });
         if (!prods || prods.length === 0) {throw new NotFoundException('No users found')}
         return await Promise.all(prods.map(prod => this.convert(prod, ConvertClass.DTO)));
     }
 
     async findById(id: number): Promise<ProductDTO>{
-        const prod = await this.productRepository.findOne({ where: { idProduto: id } });
+        const prod = await this.productRepository.findOne({ where: { idProduto: id }, relations: ['produtoCategoria', 'usuario'] });
         if (!prod) {throw new NotFoundException('')}
         return await this.convert(prod, ConvertClass.DTO);
     }
 
     async create(prodDTO: ProductDTO): Promise<ProductDTO>{
         const e = await this.convert(prodDTO, ConvertClass.ENTITY);
-        console.log(e);
         if(!e){throw new NotFoundException('')}
         const cProd = await this.productRepository.save(e);
         return await this.findById(cProd.idProduto);
@@ -74,15 +73,10 @@ export class ProductService{
     
             case ConvertClass.CLASS:
                 if(obj instanceof Produto){
-                    const category = await this.productCategoryService.convert(
-                        await this.productCategoryService.findById(obj.produtoCategoria), convertTo);
-                    const user = await this.productCategoryService.convert(
-                        await this.productCategoryService.findById(obj.usuario), convertTo);
-
                     return new Product(
                         obj.idProduto,
-                        category,
-                        user,
+                        obj.produtoCategoria,
+                        obj.usuario,
                         obj.titulo,
                         obj.descricao,
                         obj.unidade,
@@ -111,15 +105,10 @@ export class ProductService{
 
             case ConvertClass.DTO:
                 if(obj instanceof Produto){
-                    const category = await this.productCategoryService.convert(
-                        await this.productCategoryService.findById(obj.produtoCategoria), convertTo);
-                    const user = await this.productCategoryService.convert(
-                        await this.productCategoryService.findById(obj.usuario), convertTo);
-
                     return new ProductDTO(
                         obj.idProduto,
-                        category,
-                        user,
+                        obj.produtoCategoria,
+                        obj.usuario,
                         obj.titulo,
                         obj.descricao,
                         obj.unidade,

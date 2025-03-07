@@ -18,14 +18,14 @@ export class ProductController{
 
     @Post('create')
     @UsePipes(new ValidationPipe({ transform: true }))
-        async create(@Body() user: ProductDTO): Promise<ProductDTO>{
-        return this.productService.create(user);
+        async create(@Body() prod: ProductDTO): Promise<ProductDTO>{
+        return this.productService.create(prod);
     }
 
     @Put('update')
     @UsePipes(new ValidationPipe({ transform: true }))
-        async update(@Body() user: ProductDTO): Promise<ProductDTO>{
-        return this.productService.update(user);
+        async update(@Body() prod: ProductDTO): Promise<ProductDTO>{
+        return this.productService.update(prod);
     }
 
     @Delete('delete/:id')

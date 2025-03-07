@@ -8,6 +8,8 @@ import { UserPerfilModule } from './model/user/perfil/userPerfil.module';
 import { UserModule } from './model/user/user.module';
 import { ProductModule } from './model/product/product.module';
 import { ProductCategoryModule } from './model/product/category/productCategory.module';
+import { CartModule } from './model/cart/cart.module';
+import { CartItemModule } from './model/cart/item/cartItem.module';
 
 @Module({
   imports: [
@@ -30,6 +32,8 @@ import { ProductCategoryModule } from './model/product/category/productCategory.
     UserPerfilModule,
     ProductModule,
     ProductCategoryModule,
+    CartModule,
+    CartItemModule,
   ],
   controllers: [AppController], 
   providers: [AppService],

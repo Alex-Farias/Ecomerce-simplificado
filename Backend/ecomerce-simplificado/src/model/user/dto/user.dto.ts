@@ -1,9 +1,5 @@
-import { IsString, IsInt, IsOptional, IsIn, IsBoolean, IsNotEmpty, IsEnum } from 'class-validator';
-import { User } from 'src/model/user/user';
-import { UserPerfil } from 'src/model/user/perfil/userPerfil';
+import { IsBoolean, IsInt, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 import { UserPerfilEnum } from 'src/model/user/perfil/enum/userPerfilEnum';
-import { Usuario } from 'src/entity/usuario.entity';
-import { Transform } from 'class-transformer';
 
 export class UserDTO{
   @IsOptional()

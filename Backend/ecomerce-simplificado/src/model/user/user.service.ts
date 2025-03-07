@@ -16,13 +16,13 @@ export class UserService{
     ){}
 
     async findAll(): Promise<UserDTO[]>{
-        const users = await this.userRepository.find();
+        const users = await this.userRepository.find({ relations: ['usuarioPerfil'] });
         if (!users || users.length === 0) {throw new NotFoundException('No users found')}
         return Promise.all(users.map(user => this.convert(user, ConvertClass.DTO)));
     }
 
     async findById(id: number): Promise<UserDTO>{
-        const user = await this.userRepository.findOne({ where: { idUsuario: id } });
+        const user = await this.userRepository.findOne({ where: { idUsuario: id }, relations: ['usuarioPerfil'] });
         if (!user) {throw new NotFoundException('')}
         return this.convert(user, ConvertClass.DTO);
     }
