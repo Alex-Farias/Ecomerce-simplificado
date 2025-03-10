@@ -1,13 +1,13 @@
-import { Entity, PrimaryGeneratedColumn, ManyToOne, JoinColumn, Column } from 'typeorm';
-import { Chat } from './chat.entity';
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { BatePapo } from './chat.entity';
 
-@Entity('historico_chat')
-export class ChatHistorico {
+@Entity('historico_bate_papo')
+export class BatePapoHistorico {
   @PrimaryGeneratedColumn('increment', { name: 'id_chat_historico' })
-  idChatHistorico: number;
-  @ManyToOne(() => Chat, { nullable: false })
-  @JoinColumn({ name: 'id_chat' })
-  chat: number;
+  idBatePapoHistorico: number;
+  @ManyToOne(() => BatePapo, { nullable: false })
+  @JoinColumn({ name: 'id_bate_papo' })
+  batePapo: number;
   @Column({ type: 'varchar', length: 255, nullable: false })
   mensagem: string;
   @Column({ type: 'int', nullable: true })

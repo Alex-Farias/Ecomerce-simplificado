@@ -13,6 +13,8 @@ import { CartItemModule } from './model/cart/item/cartItem.module';
 import { OrderModule } from './model/order/order.module';
 import { OrderItemModule } from './model/order/item/orderItem.module';
 import { OrderHistoryModule } from './model/order/history/orderHistory.module';
+import { ChatModule } from './model/chat/chat.module';
+import { ChatHistoryModule } from './model/chat/history/chatHistory.module';
 
 @Module({
   imports: [
@@ -40,6 +42,8 @@ import { OrderHistoryModule } from './model/order/history/orderHistory.module';
     OrderModule,
     OrderItemModule,
     OrderHistoryModule,
+    ChatModule,
+    ChatHistoryModule,
   ],
   controllers: [AppController], 
   providers: [AppService],
