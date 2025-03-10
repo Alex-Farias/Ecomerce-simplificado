@@ -1,10 +1,33 @@
-import { Produto } from "src/entity/produto.entity";
-import { Order } from "../order";
+import { OrderItemInterface } from "./interface/orderItem.interface";
 
-export interface OrderItem{
+export class OrderItem implements OrderItemInterface{
   id: number;
-  oder: Order;
-  product: Produto;
+  order: number;
+  product: number;
   productQuantity: number;
   isActive: boolean;
+
+  constructor(id: number,
+              order: number,
+              product: number,
+              productQuantity: number,
+              isActive: boolean){
+    this.id = id;
+    this.order = order;
+    this.product = product;
+    this.productQuantity = productQuantity;
+    this.isActive = isActive;
+  }
+
+  public getId(): number{return this.id!}
+  public getOrder(): number{return this.order!}
+  public getProduct(): number{return this.product!}
+  public getProductQuantity(): number{return this.productQuantity!}
+  public getIsActive(): boolean{return this.isActive!}
+
+  public setId(id: number){this.id = id}
+  public setOrder(order: number){this.order = order}
+  public setProduct(product: number){this.product = product}
+  public setProductQuantity(productQuantity: number){this.productQuantity = productQuantity}
+  public setIsActive(isActive: boolean){this.isActive = isActive}
 }

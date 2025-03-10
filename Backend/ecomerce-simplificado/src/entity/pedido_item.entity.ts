@@ -8,7 +8,7 @@ export class PedidoItem {
   idPedidoItem: number;
   @ManyToOne(() => Pedido, { nullable: false })
   @JoinColumn({ name: 'id_pedido' })
-  pedido: Pedido;
+  pedido: number;
   @ManyToOne(() => Produto, { nullable: false })
   @JoinColumn({ name: 'id_produto' })
   produto: number;
