@@ -1,100 +1,196 @@
 // src/lib/api.ts
-import axios from 'axios';
+import axios, { AxiosRequestConfig, AxiosResponse, AxiosError } from 'axios';
+import { API_ROUTES } from './api-routes';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api';
-
+// Create axios instance with default config
 const api = axios.create({
-  baseURL: API_URL,
+  baseURL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api',
   headers: {
     'Content-Type': 'application/json',
   },
+  timeout: 10000, // 10 seconds
 });
 
-// Add auth token to requests if available
-api.interceptors.request.use((config) => {
-  const token = localStorage.getItem('token');
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
+// Request interceptor for adding auth token
+api.interceptors.request.use(
+  (config) => {
+    if (typeof window !== 'undefined') {
+      const token = localStorage.getItem('token');
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
+    }
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
+
+// Response interceptor for error handling
+api.interceptors.response.use(
+  (response) => response,
+  (error: AxiosError) => {
+    // Handle token expiration
+    if (error.response?.status === 401) {
+      if (typeof window !== 'undefined') {
+        localStorage.removeItem('token');
+        window.location.href = '/account?session=expired';
+      }
+    }
+    return Promise.reject(error);
   }
-  return config;
-});
+);
 
-// Products
+// Generic API functions with error handling
+const apiService = {
+  // Generic GET request
+  get: async <T = any>(url: string, config?: AxiosRequestConfig): Promise<T> => {
+    try {
+      const response: AxiosResponse<T> = await api.get(url, config);
+      return response.data;
+    } catch (error) {
+      console.error(`GET request to ${url} failed:`, error);
+      throw error;
+    }
+  },
+
+  // Generic POST request
+  post: async <T = any>(url: string, data?: any, config?: AxiosRequestConfig): Promise<T> => {
+    try {
+      const response: AxiosResponse<T> = await api.post(url, data, config);
+      return response.data;
+    } catch (error) {
+      console.error(`POST request to ${url} failed:`, error);
+      throw error;
+    }
+  },
+
+  // Generic PUT request
+  put: async <T = any>(url: string, data?: any, config?: AxiosRequestConfig): Promise<T> => {
+    try {
+      const response: AxiosResponse<T> = await api.put(url, data, config);
+      return response.data;
+    } catch (error) {
+      console.error(`PUT request to ${url} failed:`, error);
+      throw error;
+    }
+  },
+
+  // Generic DELETE request
+  delete: async <T = any>(url: string, config?: AxiosRequestConfig): Promise<T> => {
+    try {
+      const response: AxiosResponse<T> = await api.delete(url, config);
+      return response.data;
+    } catch (error) {
+      console.error(`DELETE request to ${url} failed:`, error);
+      throw error;
+    }
+  },
+};
+
+// Auth service functions
+export const login = async (email: string, password: string) => {
+  const response = await apiService.post(API_ROUTES.AUTH.LOGIN, { email, senha: password });
+  if (response.token) {
+    localStorage.setItem('token', response.token);
+  }
+  return response;
+};
+
+export const register = async (userData: any) => {
+  return await apiService.post(API_ROUTES.USER.CREATE, userData);
+};
+
+export const logout = () => {
+  if (typeof window !== 'undefined') {
+    localStorage.removeItem('token');
+  }
+};
+
+// Product service functions
 export const getProducts = async () => {
-  const response = await api.get('/produtos');
-  return response.data;
+  return await apiService.get(API_ROUTES.PRODUCT.READ_ALL);
 };
 
 export const getProductById = async (id: number) => {
-  const response = await api.get(`/produtos/${id}`);
-  return response.data;
+  return await apiService.get(API_ROUTES.PRODUCT.READ(id));
 };
 
 export const getProductCategories = async () => {
-  const response = await api.get('/produtos/categorias');
-  return response.data;
+  return await apiService.get(API_ROUTES.PRODUCT_CATEGORY.READ_ALL);
 };
 
-// Cart
+export const createProduct = async (product: any) => {
+  return await apiService.post(API_ROUTES.PRODUCT.CREATE, product);
+};
+
+export const updateProduct = async (product: any) => {
+  return await apiService.put(API_ROUTES.PRODUCT.UPDATE, product);
+};
+
+export const deleteProduct = async (id: number) => {
+  return await apiService.delete(API_ROUTES.PRODUCT.DELETE(id));
+};
+
+// Cart service functions
 export const getCart = async () => {
-  const response = await api.get('/carrinho');
-  return response.data;
+  return await apiService.get(API_ROUTES.CART.READ_ALL);
 };
 
 export const addToCart = async (productId: number, quantity: number) => {
-  const response = await api.post('/carrinho/itens', { 
+  return await apiService.post(API_ROUTES.CART_ITEM.CREATE, { 
     produto: productId, 
     produtoQuantidade: quantity,
     selecionado: true
   });
-  return response.data;
 };
 
 export const updateCartItem = async (cartItemId: number, quantity: number, selected: boolean) => {
-  const response = await api.put(`/carrinho/itens/${cartItemId}`, {
+  return await apiService.put(API_ROUTES.CART_ITEM.UPDATE, {
+    idCarrinhoItem: cartItemId,
     produtoQuantidade: quantity,
     selecionado: selected
   });
-  return response.data;
 };
 
 export const removeCartItem = async (cartItemId: number) => {
-  const response = await api.delete(`/carrinho/itens/${cartItemId}`);
-  return response.data;
+  return await apiService.delete(API_ROUTES.CART_ITEM.DELETE(cartItemId));
 };
 
-// Orders
+// Order service functions
 export const createOrder = async () => {
-  const response = await api.post('/pedidos');
-  return response.data;
+  return await apiService.post(API_ROUTES.ORDER.CREATE);
 };
 
 export const getOrders = async () => {
-  const response = await api.get('/pedidos');
-  return response.data;
+  return await apiService.get(API_ROUTES.ORDER.READ_ALL);
 };
 
 export const getOrderById = async (id: number) => {
-  const response = await api.get(`/pedidos/${id}`);
-  return response.data;
+  return await apiService.get(API_ROUTES.ORDER.READ(id));
 };
 
-// Auth
-export const login = async (email: string, password: string) => {
-  const response = await api.post('/auth/login', { email, senha: password });
-  if (response.data.token) {
-    localStorage.setItem('token', response.data.token);
-  }
-  return response.data;
+export const getOrderHistory = async (orderId: number) => {
+  return await apiService.get(API_ROUTES.ORDER_HISTORY.READ(orderId));
 };
 
-export const register = async (userData: any) => {
-  const response = await api.post('/auth/register', userData);
-  return response.data;
+// Chat service functions
+export const getChats = async () => {
+  return await apiService.get(API_ROUTES.CHAT.READ_ALL);
 };
 
-export const logout = () => {
-  localStorage.removeItem('token');
+export const getChatById = async (id: number) => {
+  return await apiService.get(API_ROUTES.CHAT.READ(id));
+};
+
+export const getChatHistory = async (chatId: number) => {
+  return await apiService.get(API_ROUTES.CHAT_HISTORY.READ_ALL);
+};
+
+export const sendChatMessage = async (chatId: number, message: string) => {
+  return await apiService.post(API_ROUTES.CHAT_HISTORY.CREATE, {
+    batePapo: chatId,
+    mensagem: message,
+  });
 };
 
 export default api;

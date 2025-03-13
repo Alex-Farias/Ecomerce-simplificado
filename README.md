@@ -12,9 +12,12 @@ npm i --save next-auth
 npm i --save axios
 ## Install Lucide
 npm i --save lucide-react
-
-
-
+## 
+npm i --save  -D @tailwindcss/forms @tailwindcss/typography @tailwindcss/aspect-ratio
+npm i --save -D tailwindcss@latest postcss@latest autoprefixer@latest
+npm i --save -D tailwindcss autoprefixer postcss
+npm i --save  -D tailwindcss@latest postcss@latest autoprefixer@latest
+npm i --save tailwindcss@3 autoprefixer postcss
 
 ## Start the dev server
 npm run dev
