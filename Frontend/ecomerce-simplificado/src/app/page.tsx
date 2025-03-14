@@ -1,151 +1,103 @@
-// src/app/page.tsx
-'use client';
-
-import { useEffect } from 'react';
-import Link from 'next/link';
-import { useProducts } from '@/hooks/useProducts';
-import ProductGrid from '@/components/products/ProductGrid';
-import { ArrowRight, Check, DollarSign, Truck } from 'lucide-react';
+import Image from "next/image";
 
 export default function Home() {
-  const { products, categories, loading, fetchProducts } = useProducts();
-  
-  useEffect(() => {
-    fetchProducts();
-  }, [fetchProducts]);
-  
-  // Get featured products (first 4)
-  const featuredProducts = products.slice(0, 4);
-  
   return (
-    <div className="space-y-12">
-      {/* Hero Section */}
-      <div className="relative overflow-hidden rounded-2xl bg-indigo-600 dark:bg-indigo-700 text-white">
-        <div className="absolute inset-0 opacity-20 bg-pattern-dots"></div>
-        <div className="relative z-10 py-16 px-8 md:py-24 md:px-12">
-          <div className="max-w-2xl mx-auto text-center">
-            <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl md:text-6xl mb-4">
-              Quality Products Direct from Producers
-            </h1>
-            <p className="mt-6 text-xl max-w-prose mx-auto text-indigo-100">
-              Find the best products at competitive prices, delivered directly to your door.
-            </p>
-            <div className="mt-10 flex justify-center">
-              <Link 
-                href="/products"
-                className="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md bg-white text-indigo-600 hover:bg-indigo-50 transition-colors shadow-md hover:shadow-lg"
-              >
-                Shop Now
-                <ArrowRight className="ml-2 h-5 w-5" />
-              </Link>
-            </div>
-          </div>
-        </div>
-      </div>
-      
-      {/* Featured Products */}
-      <div>
-        <div className="flex justify-between items-center mb-8">
-          <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white">
-            Featured Products
-          </h2>
-          <Link 
-            href="/products" 
-            className="inline-flex items-center text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 font-medium"
+    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
+      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
+        <Image
+          className="dark:invert"
+          src="/next.svg"
+          alt="Next.js logo"
+          width={180}
+          height={38}
+          priority
+        />
+        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
+          <li className="mb-2 tracking-[-.01em]">
+            Get started by editing{" "}
+            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
+              src/app/page.tsx
+            </code>
+            .
+          </li>
+          <li className="tracking-[-.01em]">
+            Save and see your changes instantly.
+          </li>
+        </ol>
+
+        <div className="flex gap-4 items-center flex-col sm:flex-row">
+          <a
+            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
+            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
+            target="_blank"
+            rel="noopener noreferrer"
           >
-            View all
-            <ArrowRight className="ml-1 h-4 w-4" />
-          </Link>
+            <Image
+              className="dark:invert"
+              src="/vercel.svg"
+              alt="Vercel logomark"
+              width={20}
+              height={20}
+            />
+            Deploy now
+          </a>
+          <a
+            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
+            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Read our docs
+          </a>
         </div>
-        
-        {loading ? (
-          <div className="grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4">
-            {[...Array(4)].map((_, i) => (
-              <div key={i} className="animate-pulse">
-                <div className="aspect-w-1 aspect-h-1 bg-gray-200 dark:bg-gray-700 rounded-lg overflow-hidden mb-4">
-                  <div className="h-48"></div>
-                </div>
-                <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-3/4 mb-2"></div>
-                <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-1/2"></div>
-              </div>
-            ))}
-          </div>
-        ) : products.length === 0 ? (
-          <div className="text-center py-12 bg-white dark:bg-gray-800 rounded-xl shadow-sm">
-            <p className="text-gray-500 dark:text-gray-400">No products found. Check back soon!</p>
-          </div>
-        ) : (
-          <ProductGrid products={featuredProducts} loading={loading} />
-        )}
-      </div>
-      
-      {/* Categories */}
-      <div>
-        <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-8">
-          Shop by Category
-        </h2>
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          {categories.length === 0 ? (
-            <>
-              {[...Array(4)].map((_, i) => (
-                <div key={i} className="animate-pulse bg-gray-200 dark:bg-gray-700 rounded-lg p-6">
-                  <div className="h-5 bg-gray-300 dark:bg-gray-600 rounded w-1/2"></div>
-                </div>
-              ))}
-            </>
-          ) : (
-            <>
-              {categories.map((category) => (
-                <Link 
-                  key={category.idProdutoCategoria}
-                  href={`/products?category=${category.idProdutoCategoria}`}
-                  className="group bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm hover:shadow-md transition-all hover:bg-indigo-50 dark:hover:bg-indigo-900/30"
-                >
-                  <div className="font-medium text-gray-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
-                    {category.descricao}
-                  </div>
-                </Link>
-              ))}
-            </>
-          )}
-        </div>
-      </div>
-      
-      {/* Benefits Section */}
-      <div className="bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-sm">
-        <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-8 text-center">
-          Why Choose Us
-        </h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div className="text-center">
-            <div className="w-12 h-12 mx-auto bg-indigo-100 dark:bg-indigo-900/40 rounded-full flex items-center justify-center text-indigo-600 dark:text-indigo-400 mb-4">
-              <Check className="h-6 w-6" />
-            </div>
-            <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">Quality Products</h3>
-            <p className="text-gray-600 dark:text-gray-400">
-              We carefully select only the best products from trusted producers.
-            </p>
-          </div>
-          <div className="text-center">
-            <div className="w-12 h-12 mx-auto bg-indigo-100 dark:bg-indigo-900/40 rounded-full flex items-center justify-center text-indigo-600 dark:text-indigo-400 mb-4">
-              <DollarSign className="h-6 w-6" />
-            </div>
-            <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">Competitive Prices</h3>
-            <p className="text-gray-600 dark:text-gray-400">
-              Direct from producers to you, without unnecessary middlemen.
-            </p>
-          </div>
-          <div className="text-center">
-            <div className="w-12 h-12 mx-auto bg-indigo-100 dark:bg-indigo-900/40 rounded-full flex items-center justify-center text-indigo-600 dark:text-indigo-400 mb-4">
-              <Truck className="h-6 w-6" />
-            </div>
-            <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">Fast Delivery</h3>
-            <p className="text-gray-600 dark:text-gray-400">
-              Quick and reliable shipping to your doorstep.
-            </p>
-          </div>
-        </div>
-      </div>
+      </main>
+      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
+        <a
+          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
+          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <Image
+            aria-hidden
+            src="/file.svg"
+            alt="File icon"
+            width={16}
+            height={16}
+          />
+          Learn
+        </a>
+        <a
+          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
+          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <Image
+            aria-hidden
+            src="/window.svg"
+            alt="Window icon"
+            width={16}
+            height={16}
+          />
+          Examples
+        </a>
+        <a
+          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
+          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <Image
+            aria-hidden
+            src="/globe.svg"
+            alt="Globe icon"
+            width={16}
+            height={16}
+          />
+          Go to nextjs.org →
+        </a>
+      </footer>
     </div>
   );
 }
