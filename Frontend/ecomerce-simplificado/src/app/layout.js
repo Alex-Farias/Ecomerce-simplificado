@@ -7,10 +7,13 @@ import Header from '@/components/layout/Header';
 import Sidebar from '@/components/layout/Sidebar';
 import Footer from '@/components/layout/Footer';
 import { ThemeProvider } from '@/context/ThemeContext';
+import { usePathname } from 'next/navigation';
 
 const inter = Inter({ subsets: ['latin'] });
 
 export default function RootLayout({ children }) {
+  const pathname = usePathname();
+  
   return (
     <html lang="pt-BR">
       <body className={`${inter.className} bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 min-h-screen flex flex-col`}>

@@ -23,6 +23,6 @@ async function bootstrap() {
   app.useBodyParser('json');
 
   console.log('Database Host:', process.env.DB_DOCKER_HOST);
-  await app.listen(3000, '0.0.0.0');
+  await app.listen(3001, '0.0.0.0');
 }
 bootstrap();
