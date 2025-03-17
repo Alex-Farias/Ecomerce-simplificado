@@ -1,106 +1,36 @@
-# Ecomerce Simplificado - Frontend
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-Este é o frontend para o projeto "Ecomerce Simplificado", desenvolvido com Next.js e integrado com o backend Node.js.
+## Getting Started
 
-## 🚀 Tecnologias
+First, run the development server:
 
-- [Next.js 13+](https://nextjs.org/) (App Router)
-- [Tailwind CSS](https://tailwindcss.com/)
-- [React Hook Form](https://react-hook-form.com/)
-- [Axios](https://axios-http.com/)
-- [SWR](https://swr.vercel.app/)
-- [Next Themes](https://github.com/pacocoursey/next-themes)
-- [Heroicons](https://heroicons.com/)
-- [React Hot Toast](https://react-hot-toast.com/)
-
-## 📋 Requisitos
-
-- Node.js 16.8.0 ou superior
-- NPM ou Yarn
-- Backend do Ecomerce Simplificado rodando na porta 3000
-
-## 🔧 Instalação
-
-1. Clone o repositório:
-```bash
-git clone https://github.com/seu-usuario/ecomerce-simplificado.git
-cd ecomerce-simplificado
-```
-
-2. Instale as dependências:
-```bash
-npm install
-# ou
-yarn install
-```
-
-3. Execute o servidor de desenvolvimento:
 ```bash
 npm run dev
-# ou
+# or
 yarn dev
+# or
+pnpm dev
+# or
+bun dev
 ```
 
-4. Abra [http://localhost:3000](http://localhost:3000) no seu navegador para ver o resultado.
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-## 📁 Estrutura do Projeto
+You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
 
-O projeto segue a estrutura do App Router do Next.js 13+:
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-- `/app`: Contém todas as rotas e páginas da aplicação
-- `/app/(admin)`: Grupo de rotas administrativas
-- `/components`: Componentes reutilizáveis
-- `/context`: Contextos do React (autenticação, carrinho, tema)
-- `/hooks`: Custom hooks
-- `/lib`: Utilitários e configurações
-- `/public`: Arquivos estáticos
+## Learn More
 
-## 🔍 Funcionalidades
+To learn more about Next.js, take a look at the following resources:
 
-- 🏠 **Página Inicial**: Exibe produtos e categorias em destaque
-- 👤 **Autenticação**: Login e registro de usuários
-- 🛒 **Carrinho de Compras**: Adicionar, atualizar e remover produtos
-- 💳 **Checkout**: Processo de compra simplificado
-- 👨‍💼 **Área Administrativa**: Gerenciamento de produtos, categorias, pedidos e usuários
-- 🌓 **Tema Claro/Escuro**: Alternância entre temas
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-## 📱 Responsividade
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-O site é totalmente responsivo, adaptando-se a diferentes tamanhos de tela:
-- Desktops
-- Tablets
-- Dispositivos móveis
+## Deploy on Vercel
 
-## 🔌 Integração com o Backend
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-Este frontend conecta-se ao backend através do arquivo `lib/api.js` que utiliza Axios para fazer as requisições. As rotas da API estão configuradas para acessar o backend na URL `http://localhost:3000`.
-
-## 🌐 Rotas Principais
-
-- `/`: Página inicial com produtos em destaque
-- `/login` e `/register`: Autenticação de usuários
-- `/product/:id`: Detalhes do produto
-- `/category/:id`: Produtos por categoria
-- `/cart`: Carrinho de compras
-- `/checkout`: Finalização de compra
-- `/profile`: Perfil do usuário
-- `/orders`: Pedidos do usuário
-- `/(admin)/...`: Rotas administrativas
-
-## 👨‍💻 Desenvolvimento
-
-Para contribuir com o projeto, siga estas etapas:
-
-1. Crie um fork do projeto
-2. Crie uma branch para sua feature (`git checkout -b feature/nova-feature`)
-3. Faça commit das suas alterações (`git commit -m 'Adicionando nova feature'`)
-4. Faça push para a branch (`git push origin feature/nova-feature`)
-5. Abra um Pull Request
-
-## 📄 Licença
-
-Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
-
-## 📞 Contato
-
-Se tiver dúvidas ou sugestões, entre em contato pelo email: exemplo@mail.com
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
